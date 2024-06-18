@@ -1,0 +1,400 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"><title>Gigedit Quickstart</title><link rel="stylesheet" type="text/css" href="style.css"><meta name="generator" content="DocBook XSL Stylesheets Vsnapshot"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="book"><div class="titlepage"><div><div><h1 class="title"><a name="idm1"></a>Gigedit Quickstart</h1></div><div><div class="author"><h3 class="author"><span class="firstname">Alexander</span> <span class="surname">Methke</span></h3></div></div><div><p class="pubdate">2010</p></div><div><div class="revhistory"><table style="border-style:solid; width:100%;" summary="Revision History"><tr><th align="left" valign="top" colspan="3"><b>Revision History</b></th></tr><tr><td align="left">Revision 0e</td><td align="left">27.01.2010</td><td align="left"><span class="firstname">Christian<br></span><span class="surname">Schoenebeck<br></span></td></tr><tr><td align="left" colspan="3">
+		Environment variable LINUXSAMPLER_PLUGIN_DIR was introduced to LinuxSsampler (chapter "live-editing").
+		</td></tr><tr><td align="left">Revision 0d</td><td align="left">07.12.2007</td><td align="left"><span class="firstname">Christian<br></span><span class="surname">Schoenebeck<br></span></td></tr><tr><td align="left" colspan="3">
+		Added screenshot of JSampler to chapter "live-editing".
+		</td></tr><tr><td align="left">Revision 0c</td><td align="left">07.10.2007</td><td align="left"><span class="firstname">Christian<br></span><span class="surname">Schoenebeck<br></span></td></tr><tr><td align="left" colspan="3">
+		Added chapter about live-editing.
+		</td></tr><tr><td align="left">Revision 0b</td><td align="left">03.06.2007</td><td align="left"><span class="firstname">Alexander<br></span><span class="surname">Methke<br></span></td></tr><tr><td align="left" colspan="3">
+		Restructuring, See Also, few hints on improvement (GUI)
+		</td></tr><tr><td align="left">Revision 0a</td><td align="left">28.05.2007</td><td align="left"><span class="firstname">Alexander<br></span><span class="surname">Methke<br></span></td></tr><tr><td align="left" colspan="3">
+		Initial editing, basic GUI features, some information
+		about GIG file structure.
+		</td></tr></table></div></div></div><hr></div><div class="toc"><p><b>Table of Contents</b></p><dl class="toc"><dt><span class="chapter"><a href="#start">1. Starting From Scratch</a></span></dt><dd><dl><dt><span class="section"><a href="#start_gui">The Graphical User Interface</a></span></dt><dt><span class="section"><a href="#start_region">Creating a Region</a></span></dt><dt><span class="section"><a href="#start_sample">Adding a sample</a></span></dt><dt><span class="section"><a href="#start_where_to_go">Where to go from here?</a></span></dt></dl></dd><dt><span class="chapter"><a href="#live_editing">2. Live Editing</a></span></dt><dd><dl><dt><span class="section"><a href="#about">Only trust what you hear...</a></span></dt><dt><span class="section"><a href="#live_trouble">Trouble with live-editing</a></span></dt></dl></dd><dt><span class="chapter"><a href="#technical">3. Technical Approach</a></span></dt><dd><dl><dt><span class="section"><a href="#tech_basic">Sample Playing Basics</a></span></dt><dt><span class="section"><a href="#tech_amp">Amplifier Section</a></span></dt><dt><span class="section"><a href="#tech_filter">Filter Section</a></span></dt><dt><span class="section"><a href="#tech_bank">A simple Sample Bank</a></span></dt></dl></dd><dt><span class="chapter"><a href="#keybindings">4. Keybindings</a></span></dt><dd><dl><dt><span class="section"><a href="#key_global">Global Bindings</a></span></dt><dt><span class="section"><a href="#key_group">Group Tab</a></span></dt><dt><span class="section"><a href="#key_instrument">Instrument Tab</a></span></dt><dt><span class="section"><a href="#key_region">Region Area</a></span></dt></dl></dd><dt><span class="chapter"><a href="#see_also">5. See Also</a></span></dt><dt><span class="chapter"><a href="#gig">6. The GIG format</a></span></dt><dd><dl><dt><span class="section"><a href="#gig_overview">An Overview</a></span></dt><dt><span class="section"><a href="#gig_region">Region</a></span></dt><dt><span class="section"><a href="#gig_dimension">Dimension</a></span></dt><dt><span class="section"><a href="#gig_instrument">Instrument</a></span></dt><dt><span class="section"><a href="#gig_group">Group</a></span></dt></dl></dd><dt><span class="glossary"><a href="#glossary">Glossary</a></span></dt><dt><span class="appendix"><a href="#gen_midi_drum">A. General Midi Drum Map</a></span></dt><dt><span class="appendix"><a href="#mc505_midi_drum">B. MC505 Midi Drum Map</a></span></dt><dt><span class="index"><a href="#index">Index</a></span></dt></dl></div><div class="list-of-figures"><p><b>List of Figures</b></p><dl><dt>1.1. <a href="#shot_whole_app">Screenshot of the whole application</a></dt><dt>1.2. <a href="#shot_default_group">Screenshot of the new default group</a></dt><dt>1.3. <a href="#shot_new_dimension">Screenshot of the new dimension action</a></dt><dt>1.4. <a href="#shot_add_sample">Screenshot after adding the sample</a></dt><dt>2.1. <a href="#shot_qsampler_edit">Selecting an instrument to edit from QSampler</a></dt><dt>2.2. <a href="#shot_jsampler_edit">Selecting an instrument to edit from JSampler "Fantasia" 0.8a</a></dt><dt>2.3. <a href="#shot_gigedit_hosted">Gigedit running "attached" to LinuxSampler</a></dt><dt>3.1. <a href="#diagram_signal_routing">Schematic drawing of basic signal routing</a></dt><dt>3.2. <a href="#shot_amp1">Screen shot of ADSR settings for Amp section</a></dt><dt>3.3. <a href="#shot_amp2">Screen shot of LFO settings for Amp section</a></dt><dt>3.4. <a href="#shot_filter1">Screen shot of general settings for Filter section</a></dt><dt>3.5. <a href="#shot_filter2">Screen shot of ADSR and LFO settings for Filter section</a></dt></dl></div><div class="list-of-tables"><p><b>List of Tables</b></p><dl><dt>A.1. <a href="#gen_midi_table">General midi drum map</a></dt><dt>B.1. <a href="#mc505_table1">MC505 midi drum map</a></dt><dt>B.2. <a href="#mc505_table2">MC505 midi drum map (continued)</a></dt></dl></div><div class="chapter"><div class="titlepage"><div><div><h1 class="title"><a name="start"></a>Chapter 1. Starting From Scratch</h1></div></div></div><div class="toc"><p><b>Table of Contents</b></p><dl class="toc"><dt><span class="section"><a href="#start_gui">The Graphical User Interface</a></span></dt><dt><span class="section"><a href="#start_region">Creating a Region</a></span></dt><dt><span class="section"><a href="#start_sample">Adding a sample</a></span></dt><dt><span class="section"><a href="#start_where_to_go">Where to go from here?</a></span></dt></dl></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="start_gui"></a>The Graphical User Interface</h2></div></div></div><p>
+	Now you have <span class="application">gigedit</span> running and can see
+	something like the following screenshot. On the left you see an
+	empty white field, on the right a set of tabbed dialogs and below
+	all that some piano keys. At this early stage everything is disabled,
+	except the topmost menu.
+  </p><div class="figure"><a name="shot_whole_app"></a><p class="title"><b>Figure 1.1. Screenshot of the whole application</b></p><div class="figure-contents"><div class="screenshot"><div class="mediaobject"><img src="shot_whole_app.png" alt="Screenshot of the whole application"></div></div></div></div><br class="figure-break"><p>
+	In the next paragraphs you will add a few samples and stuff to create
+	a totally new GIG file. If you're interested in some technical background
+	and help on the terms used here, refere to <a class="xref" href="#gig" title="Chapter 6. The GIG format">Chapter 6, <i>The GIG format</i></a>.
+  </p></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="start_region"></a>Creating a Region</h2></div></div></div><p>
+	To start with a new file, we need a new file. Choose
+	<span class="guimenu">File</span> &#8594; <span class="guimenuitem">New</span>
+	and the only thing changing is an entry <span class="emphasis"><em>Default Group</em></span>
+	on the previously white field on the left.
+  </p><div class="figure"><a name="shot_default_group"></a><p class="title"><b>Figure 1.2. Screenshot of the new default group</b></p><div class="figure-contents"><div class="screenshot"><div class="mediaobject"><img src="shot_default_group.png" alt="Screenshot of the new default group"></div></div></div></div><br class="figure-break"><p>
+	Now there's a lot more possible on the gui and lacking such a fine
+	quickstart I had to figure it out myself: Right click somewhere
+	in the gray area above the piano keys. There's a small gray band
+	and you'll get the following popup menu (Says: <span class="emphasis"><em>Add</em></span>,
+	the red arrows mark the area's width where you can cause this
+	popup to pop up):
+  </p><div class="figure"><a name="shot_new_dimension"></a><p class="title"><b>Figure 1.3. Screenshot of the new dimension action</b></p><div class="figure-contents"><div class="screenshot"><div class="mediaobject"><img src="shot_new_dimension.png" alt="Screenshot of the new dimension action"></div></div></div></div><br class="figure-break"><p>
+	If you click this action a small rectangle occurs and some of the input
+	fields and sliders on the tab <span class="emphasis"><em>EG1</em></span> are enabled. By
+	moving the curser above the rectangle's left and right border you can
+	resize it and define the region's width, e.g. it's lowest and highest
+	key. Now you have a region and all you need is a sample, to play
+	when pressing the region's keys.
+  </p><div class="tip" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Tip</h3><p>
+	Until the alpha version it was necessary to do it that way around
+	instead of first adding a sample and then a region. It caused some
+	additional dimensions to show up, which could not be removed.
+  </p></div></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="start_sample"></a>Adding a sample</h2></div></div></div><p>
+	Hopefully you have some WAV samples somewhere available on
+	your computer. If not: get some from your microphone, the
+	internet or a friend who knows, what a WAV is ;-). Select
+	the entry <span class="guimenuitem">Default Group</span> on the left
+	and right click it (or right click it twice, so that <span class="guimenuitem">
+	Add Sample(s)</span> is enabled). And click
+	<span class="guimenuitem">Add Sample(s)</span>. Browse with the
+	file chooser through your harddisk and select a wav sample.
+	If you did so, your Default Group will look like this (maybe
+	you need to open the tree like structure by clicking the
+	triangle in front).
+  </p><div class="figure"><a name="shot_add_sample"></a><p class="title"><b>Figure 1.4. Screenshot after adding the sample</b></p><div class="figure-contents"><div class="screenshot"><div class="mediaobject"><img src="shot_add_sample.png" alt="Screenshot after adding the sample"></div></div></div></div><br class="figure-break"><p>
+	On the left you see the popup menu, the added sample below, on the
+	right side the enabled input elements and below all that the
+	piano key roll with a blueish rectangle from C2 to C3. The
+	input field <span class="emphasis"><em>Sample</em></span> says <code class="constant">NULL</code>.
+	That means our region has no sample assigned. I tried to enter
+	the sample's name, but that did not work. Drag and Drop is
+	the key: Drag the added sample onto the input field
+	<span class="emphasis"><em>Sample</em></span> and the cursor changes. Drop
+	it and you'll see the name inside the field.
+  </p></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="start_where_to_go"></a>Where to go from here?</h2></div></div></div><p>
+	Weeeee, no you can save your changes with <span class="guimenuitem">Save As</span>.
+	When I wrote this quickstart the <span class="guimenuitem">Save</span> action
+	did not show a file name dialog but an error. So save it and
+	play with it. Load it into your sampler, perferrably
+	<span class="application">LinuxSampler</span> and hit the keys. But only
+	in the region's range you'll here some noise...your sample.
+  </p><p>
+	If it did not work: check your equipment, hard- and software, maybe
+	use some tools like <span class="command"><strong>gigdump</strong></span> or <span class="command"><strong>gigextract</strong></span>
+	to verify, that the sample(s) are inside the gig file and it's structure
+	is correct. Otherwise join the <span class="application">LinuxSampler</span>'s
+	mailing list (<a class="ulink" href="http://www.linuxsampler.org/developers.html" target="_top">http://www.linuxsampler.org/developers.html</a>).
+  </p></div></div><div class="chapter"><div class="titlepage"><div><div><h1 class="title"><a name="live_editing"></a>Chapter 2. Live Editing</h1></div></div></div><div class="toc"><p><b>Table of Contents</b></p><dl class="toc"><dt><span class="section"><a href="#about">Only trust what you hear...</a></span></dt><dt><span class="section"><a href="#live_trouble">Trouble with live-editing</a></span></dt></dl></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="about"></a>Only trust what you hear...</h2></div></div></div><p>
+	So far we've been using <span class="application">gigedit</span> as stand-alone
+	application. The main drawback of this approach is that you cannot
+	immediately hear the effect of your modifications unless you explicitly
+	(re)load the respective instrument into a sampler, which is unconvenient
+	and wastes a lot of time (especially with big instruments). Fortunately
+	gigedit and <span class="application">LinuxSampler</span> are friends and
+	politely share the same instrument(s) at the same time if you tell them to
+	do so.
+  </p><p>
+	To do this, you first have to load the respective instrument(s) into
+	<span class="application">LinuxSampler</span>, i.e. by using a frontend
+	application like <span class="application">JSampler</span> or
+	<span class="application">QSampler</span>. Here's how you do it with
+	<span class="application">QSampler</span>: Select the channel strip of the
+	instrument you want to edit and click on the "Edit" button on the same
+	channel strip, like shown in <a class="xref" href="#shot_qsampler_edit" title="Figure 2.1. Selecting an instrument to edit from QSampler">Figure 2.1, &#8220;Selecting an instrument to edit from QSampler&#8221;</a>.
+
+	Alternatively you can also select this function from the menu (
+	<span class="guimenu">"Edit"</span> &#8594; <span class="guimenuitem">"Edit Channel..."</span> ). In any case
+	<span class="application">gigedit</span> should popup on the screen in less
+	than 5 seconds. This time you can see <span class="application">gigedit</span>
+	like being "attached" to <span class="application">LinuxSampler</span>.
+
+  </p><div class="figure"><a name="shot_qsampler_edit"></a><p class="title"><b>Figure 2.1. Selecting an instrument to edit from QSampler</b></p><div class="figure-contents"><div class="screenshot"><div class="mediaobject"><img src="shot_qsampler_edit.png" alt="Selecting an instrument to edit from QSampler"></div></div></div></div><p><br class="figure-break">
+
+	In <span class="application">JSampler</span> you won't see an "Edit" button
+	by default. Instead you have to move the mouse pointer over the channel
+	strip which contains the instrument you want to edit. The channel strip
+	display will change immediately and a round, small "Edit" button
+	appears like shown in <a class="xref" href="#shot_jsampler_edit" title='Figure 2.2. Selecting an instrument to edit from JSampler "Fantasia" 0.8a'>Figure 2.2, &#8220;Selecting an instrument to edit from JSampler "Fantasia" 0.8a&#8221;</a>. Click on
+	that button and gigedit will appear like with
+	<span class="application">QSampler</span>, so it's pretty much the same thing.
+
+  </p><div class="figure"><a name="shot_jsampler_edit"></a><p class="title"><b>Figure 2.2. Selecting an instrument to edit from JSampler "Fantasia" 0.8a</b></p><div class="figure-contents"><div class="screenshot"><div class="mediaobject"><img src="shot_jsampler_edit.png" alt='Selecting an instrument to edit from JSampler "Fantasia" 0.8a'></div></div></div></div><p><br class="figure-break">
+
+  </p><div class="figure"><a name="shot_gigedit_hosted"></a><p class="title"><b>Figure 2.3. Gigedit running "attached" to LinuxSampler</b></p><div class="figure-contents"><div class="screenshot"><div class="mediaobject"><img src="shot_gigedit_hosted.png" alt='Gigedit running "attached" to LinuxSampler'></div></div></div></div><p><br class="figure-break">
+
+	If nothing appears on the screen or in case you get an error when clicking
+	on the "Edit" button, refer to <a class="xref" href="#live_trouble" title="Trouble with live-editing">the section called &#8220;Trouble with live-editing&#8221;</a>.
+  </p><p>
+	All modifications you do on the selected instrument with
+	<span class="application">gigedit</span> will immediately be audible when you
+	play notes.
+	When you close <span class="application">gigedit</span> you'll notice that it
+	won't ask you to save the instrument, which it would usually do when you
+	run <span class="application">gigedit</span> as stand-alone application. This is
+	because the modifications are not lost when you close it, at least not
+	unless you kill the sampler as well. So when you click again on "Edit"
+	you'll see that all the modifications you made are still there. Also note
+	when selecting "New" or "Open" from the menu to create a completely new
+	instrument or open another one from a file,
+	<span class="application">gigedit</span> will be "detached" from the sampler,
+	that is the other instrument will not be audible with the sampler. This is
+	currently (2007-10-07) a minor limitation of the sampler and
+	<span class="application">gigedit</span>. So if you want to create a completely
+	new instrument from scratch you first have to create that instrument with
+	<span class="application">gigedit</span>, save it to a file and then load it into
+	the sampler. After that you can continue like described in this chapter and
+	edit the new instrument "live" by clicking on the respective "Edit" button
+	in <span class="application">QSampler</span>.
+  </p></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="live_trouble"></a>Trouble with live-editing</h2></div></div></div><p>
+	<span class="application">LinuxSampler</span> and
+	<span class="application">gigedit</span> need to be compiled properly to be able
+	to use the described "live editing" feature between those two applications.
+	So here is a short technical explanation how the interaction between those
+	two applications work: <span class="application">LinuxSampler</span> per se
+	doesn't actually know anything that an application like
+	<span class="application">gigedit</span> exists in this world. However the
+	sampler provides a plugin system to extend it for this functionality. When
+	you compile the sampler you define a directory where the sampler shall look
+	for plugin DLLs to load on startup. So first check if that directory
+	actually exists or if the sampler was not compiled with the correct /
+	desired plugin directory. When you start the sampler from the console
+	simply by typing the command <span class="command"><strong>linuxsampler</strong></span> and you see
+	something like this:
+	</p><pre class="screen">
+<code class="prompt">bob@mybox ~ $</code> <span class="command"><strong>linuxsampler</strong></span>
+LinuxSampler 0.4.0.7cvs
+Copyright (C) 2003,2004 by Benno Senoner and Christian Schoenebeck
+Copyright (C) 2005-2007 Christian Schoenebeck
+Detected features: MMX SSE
+Creating Sampler...OK
+Registered sampler engines: 'GIG'
+Registered MIDI input drivers: ALSA
+Registered audio output drivers: ALSA,ARTS,JACK
+Loading instrument editor plugins...<span class="errortext">Could not open instrument editor plugins directory (/usr/local/lib/linuxsampler/plugins): No such file or directory</span>
+Registered instrument editors:
+Starting LSCP network server (0.0.0.0:8888)...OK
+LinuxSampler initialization completed. :-)
+	</pre><p>
+	Then there's definitely something wrong. :) So either create the mentioned
+	directory (in this case "/usr/local/lib/linuxsampler/plugins") manually or
+	in case you want to use another directory as plugins directory (and you
+	have linuxsampler version 1.0.0.cvs3 or younger), you can simply override
+	the location where LinuxSampler shall look for plugins by setting the
+	environment variable LINUXSAMPLER_PLUGIN_DIR:
+	</p><pre class="screen">
+<code class="prompt">bob@mybox ~ $</code> <span class="command"><strong>export LINUXSAMPLER_PLUGIN_DIR="/usr/lib/linuxsampler/plugins"</strong></span>
+<code class="prompt">bob@mybox ~ $</code> <span class="command"><strong>linuxsampler</strong></span>
+	</pre><p>
+	or recompile <span class="application">LinuxSampler</span> with another directory
+	as default plugins directory. Assuming you want it to use the directory
+	"/usr/lib/linuxsampler/plugins" instead you could compile the sampler i.e.
+	this way:
+	</p><pre class="screen">
+<code class="prompt">bob@mybox ~/cvs/linuxsampler $</code> <span class="command"><strong>./configure --enable-plugin-dir=/usr/lib/linuxsampler/plugins &amp;&amp; make</strong></span>
+	</pre><p>
+	probably in conjunction with some other configure script parameters and some
+	nice CXXFLAGS to optimize the sampler for your machine, but this is out of
+	the scope of this document. After the compilation completed, you would
+	install the sampler as user root as usual:
+	</p><pre class="screen">
+<code class="prompt">bob@mybox ~/cvs/linuxsampler $</code> <span class="command"><strong>su</strong></span>
+Password:
+<code class="prompt">mybox linuxsampler #</code> <span class="command"><strong>make install</strong></span>
+	</pre><p>
+	Again make sure that your chosen plugin directory exists, if not create it
+	and when running <span class="application">LinuxSampler</span> now again, the
+	error message on the console ("Could not open instrument editor plugins
+	directory") should be gone.
+  </p><p>
+	Now you must recompile <span class="application">gigedit</span>, because it has
+	to compile the appropriate plugin and has to place that plugin DLL into the
+	samplers plugins directory. It should look like this:
+	</p><pre class="screen">
+<code class="prompt">bob@mybox ~/cvs/gigedit $</code> <span class="command"><strong>./configure</strong></span>
+checking build system type... i686-pc-linux-gnu
+checking host system type... i686-pc-linux-gnu
+checking for gcc... gcc
+checking for C compiler default output file name... a.out
+checking whether the C compiler works... yes
+checking whether we are cross compiling... no
+...
+checking for gmsgfmt... /usr/bin/gmsgfmt
+checking for xgettext... /usr/bin/xgettext
+checking for pkg-config... /usr/bin/pkg-config
+checking pkg-config is at least version 0.9.0... yes
+checking for GTKMM... yes
+checking for GIG... yes
+checking for SNDFILE... yes
+checking for SF_INSTRUMENT.loops... yes
+<span class="errortext">checking for LINUXSAMPLER... yes
+Found linuxsampler 0.4.0.5cvs
+Retrieving LinuxSampler's plugin dir... /usr/lib/linuxsampler/plugins
+Relative plugin dir: ${libdir}/linuxsampler/plugins</span>
+configure: creating ./config.status
+config.status: creating Makefile
+config.status: creating src/Makefile
+config.status: creating src/gigedit/Makefile
+config.status: creating src/plugin/Makefile
+config.status: creating po/Makefile.in
+config.status: creating debian/Makefile
+config.status: creating doc/Makefile
+config.status: creating doc/quickstart/Makefile
+config.status: creating config.h
+config.status: config.h is unchanged
+config.status: executing depfiles commands
+config.status: executing intltool commands
+config.status: executing default-1 commands
+config.status: executing po/stamp-it commands
+<code class="prompt">bob@mybox ~/cvs/gigedit $</code> <span class="command"><strong>make</strong></span>
+	</pre><p>
+	Make sure the higlighted section of the configure script output looks
+	similar like above. After compilation completed, you once again install
+	with the common procedure:
+	</p><pre class="screen">
+<code class="prompt">bob@mybox ~/cvs/gigedit $</code> <span class="command"><strong>su</strong></span>
+Password:
+<code class="prompt">mybox gigedit #</code> <span class="command"><strong>make install</strong></span>
+	</pre><p>
+	This will install the <span class="application">gigedit</span> binary, as well
+	as its plugin .so file into the directory "/usr/lib/linuxsampler/plugins"
+	(or whatever you chose). And when you start the sampler now from the
+	console, it should look like this:
+	</p><pre class="screen">
+<code class="prompt">bob@mybox ~ $</code> <span class="command"><strong>linuxsampler</strong></span>
+LinuxSampler 0.4.0.7cvs
+Copyright (C) 2003,2004 by Benno Senoner and Christian Schoenebeck
+Copyright (C) 2005-2007 Christian Schoenebeck
+Detected features: MMX SSE
+Creating Sampler...OK
+Registered sampler engines: 'GIG'
+Registered MIDI input drivers: ALSA
+Registered audio output drivers: ALSA,ARTS,JACK
+Loading instrument editor plugins...OK
+<span class="errortext">Registered instrument editors: 'gigedit'</span>
+Starting LSCP network server (0.0.0.0:8888)...OK
+LinuxSampler initialization completed. :-)
+	</pre><p>
+	Now you're done with setup and the steps described in
+	<a class="xref" href="#about" title="Only trust what you hear...">the section called &#8220;Only trust what you hear...&#8221;</a> should work for you. If not, you probably found a
+	bug. Feel free to contact us via our mailing list or open a bug report on
+	our website.
+	</p><div class="note" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Note</h3>If you just used precompiled binary packages of
+	<span class="application">LinuxSampler</span> and
+	<span class="application">gigedit</span>, i.e. from the Linux distribution of
+	your choice, you shouldn't have to recompile them by yourself. Either the
+	versions of <span class="application">LinuxSampler</span> and / or
+	<span class="application">gigedit</span> are too old or they were simply not
+	compiled / packaged correctly. In both cases, please report it to the
+	respective package maintainer of your distribution!</div><p>
+  </p></div></div><div class="chapter"><div class="titlepage"><div><div><h1 class="title"><a name="technical"></a>Chapter 3. Technical Approach</h1></div></div></div><div class="toc"><p><b>Table of Contents</b></p><dl class="toc"><dt><span class="section"><a href="#tech_basic">Sample Playing Basics</a></span></dt><dt><span class="section"><a href="#tech_amp">Amplifier Section</a></span></dt><dt><span class="section"><a href="#tech_filter">Filter Section</a></span></dt><dt><span class="section"><a href="#tech_bank">A simple Sample Bank</a></span></dt></dl></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="tech_basic"></a>Sample Playing Basics</h2></div></div></div><p>
+	Now that you've tried enough you want to know what all
+	the funny elements like <span class="emphasis"><em>Attack</em></span> or
+	<span class="emphasis"><em>LFO</em></span> mean. I don't need to explain
+	it here, look up the terms in a textbook. If you can
+	explain the difference between <span class="emphasis"><em>Amplifier</em></span>
+	(Amp) and <span class="emphasis"><em>Voltage Controlled Filter</em></span>
+	(VCF) you can go on looking on the next picture:
+  </p><div class="figure"><a name="diagram_signal_routing"></a><p class="title"><b>Figure 3.1. Schematic drawing of basic signal routing</b></p><div class="figure-contents"><div class="screenshot"><div class="mediaobject"><img src="routing.png" alt="Schematic drawing of basic signal routing"></div></div></div></div><br class="figure-break"><p>
+	As you can see you have access to an Amp and one VCF. This
+	is not much from a synthesizer's point of view, but enough if
+	your samples are already perfectly synthesized. Gigedit provides
+	for 4 tabs, one for each section (Amp/VCF) and one for the
+	LFO and the ADSR.
+ </p></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="tech_amp"></a>Amplifier Section</h2></div></div></div><div class="figure"><a name="shot_amp1"></a><p class="title"><b>Figure 3.2. Screen shot of ADSR settings for Amp section</b></p><div class="figure-contents"><div class="screenshot"><div class="mediaobject"><img src="shot_amp1.png" alt="Screen shot of ADSR settings for Amp section"></div></div></div></div><br class="figure-break"><div class="figure"><a name="shot_amp2"></a><p class="title"><b>Figure 3.3. Screen shot of LFO settings for Amp section</b></p><div class="figure-contents"><div class="screenshot"><div class="mediaobject"><img src="shot_amp2.png" alt="Screen shot of LFO settings for Amp section"></div></div></div></div><br class="figure-break"></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="tech_filter"></a>Filter Section</h2></div></div></div><div class="figure"><a name="shot_filter1"></a><p class="title"><b>Figure 3.4. Screen shot of general settings for Filter section</b></p><div class="figure-contents"><div class="screenshot"><div class="mediaobject"><img src="shot_filter1.png" alt="Screen shot of general settings for Filter section"></div></div></div></div><br class="figure-break"><div class="figure"><a name="shot_filter2"></a><p class="title"><b>Figure 3.5. Screen shot of ADSR and LFO settings for Filter section</b></p><div class="figure-contents"><div class="screenshot"><div class="mediaobject"><img src="shot_filter2.png" alt="Screen shot of ADSR and LFO settings for Filter section"></div></div></div></div><br class="figure-break"></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="tech_bank"></a>A simple Sample Bank</h2></div></div></div><p>
+   <a class="indexterm" name="idm257"></a>
+	First sampler use was just repeating a sound, a drum
+	sample, some vocals, maybe short snippets of whole
+	orchestrations. This so called <em class="firstterm">Sample Bank</em>
+	is a collection of samples, vocals, or sounds that will
+	never be stretched along a key range. You simply press
+	a key and the sound occurs as it is. So there won't be
+	no LFO nor ADSR influence. Regions will range only for one
+	key, maybe include the half tone, maybe not. For drum
+	maps I personally recommend the <a class="xref" href="#gen_midi_drum" title="Appendix A. General Midi Drum Map">Appendix A, <i>General Midi Drum Map</i></a>.
+	If you have different drum sets you may switch easily
+	between them without reprogramming your sequencer. Also
+	shifting by octaves is easy to change the drums.
+  </p></div></div><div class="chapter"><div class="titlepage"><div><div><h1 class="title"><a name="keybindings"></a>Chapter 4. Keybindings</h1></div></div></div><div class="toc"><p><b>Table of Contents</b></p><dl class="toc"><dt><span class="section"><a href="#key_global">Global Bindings</a></span></dt><dt><span class="section"><a href="#key_group">Group Tab</a></span></dt><dt><span class="section"><a href="#key_instrument">Instrument Tab</a></span></dt><dt><span class="section"><a href="#key_region">Region Area</a></span></dt></dl></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="key_global"></a>Global Bindings</h2></div></div></div><div class="note" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Todo:</h3><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem"><span class="keycap"><strong>Ctrl+N</strong></span> - New File</li><li class="listitem"><span class="keycap"><strong>Ctrl+S</strong></span> - Save File</li><li class="listitem"><span class="keycap"><strong>Ctrl+Q</strong></span> - Quit/ Exit (<span class="keycap"><strong>Ctrl+X</strong></span> alternativly?)</li></ul></div></div></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="key_group"></a>Group Tab</h2></div></div></div><p></p></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="key_instrument"></a>Instrument Tab</h2></div></div></div><p></p></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="key_region"></a>Region Area</h2></div></div></div><p></p></div></div><div class="chapter"><div class="titlepage"><div><div><h1 class="title"><a name="see_also"></a>Chapter 5. See Also</h1></div></div></div><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem">Bugs: <a class="ulink" href="http://bugs.linuxsampler.org" target="_top">http://bugs.linuxsampler.org</a></li><li class="listitem">More Documentation (incl. some diagrams): <a class="ulink" href="http://stud.fh-heilbronn.de/~cschoene/projects/libgig/" target="_top">http://stud.fh-heilbronn.de/~cschoene/projects/libgig/</a></li></ul></div></div><div class="chapter"><div class="titlepage"><div><div><h1 class="title"><a name="gig"></a>Chapter 6. The GIG format</h1></div></div></div><div class="toc"><p><b>Table of Contents</b></p><dl class="toc"><dt><span class="section"><a href="#gig_overview">An Overview</a></span></dt><dt><span class="section"><a href="#gig_region">Region</a></span></dt><dt><span class="section"><a href="#gig_dimension">Dimension</a></span></dt><dt><span class="section"><a href="#gig_instrument">Instrument</a></span></dt><dt><span class="section"><a href="#gig_group">Group</a></span></dt></dl></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="gig_overview"></a>An Overview</h2></div></div></div><p>
+  <a class="indexterm" name="idm301"></a>
+	Allthoug this is only a quickstart somebody might want to know more
+	about the GIG format and all that Regions, Dimensions, Samples and
+	stuff. <em class="firstterm">GIG</em> is an abbreviation of <span class="emphasis"><em>
+	Gigasampler</em></span> a format defined by some company to hold
+	lots of data about <span class="emphasis"><em>noise</em></span>. Samplers are able
+	to morph a (MIDI-) key event into a sound. Either they just play
+	a so called sample, or change it according to the key's note, maybe
+	shift it, do something with filters or oscillators.
+  </p><p>
+	To describe all that you have the GIG-format. It contains not only
+	the samples but also where they're situated on the keyboard, their
+	basic tuning and lots of controlling information like aftertouch,
+	modwheel and so on. This rather complex information is split into
+	different parts.
+  </p></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="gig_region"></a>Region</h2></div></div></div><p>
+	A <em class="firstterm">region</em> is a range of notes or keys. For example one could
+	have a bass drum sample and assigns it to a single key, let's
+	assume C4 for that. So when the GIG-file contains that region, ranging
+	from C4 to C4 (one key) and referring to the base drum sample. If you
+	load this file into your sampler and press C4 you hear it kicking.
+  </p></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="gig_dimension"></a>Dimension</h2></div></div></div><p>
+	Kicking the bass drum is not really a complicated use case. Imagine a more
+	sophisticated piano sample. You can play it hard or soft, higher or lower notes
+	and even press various pedals. That's the <em class="firstterm">dimension's</em>
+	task. You take various samples (soft, hard, this pedal, that pedal) and get,
+	let's say 4 different sample types of a 2-octave range.
+  </p><p>
+	First you create a region ranging from C2 to C4. But you get only one
+	sample into this region. A dimension adds additional <span class="emphasis"><em>dimensions</em></span>
+	to this. A region with another dimension splitting into 2 bits gives
+	you 4 more samples (2^2). Now how will the right sample be selected?
+	First of all there's the region information, you already pressed a key.
+	The sampler just asks the dimension, which controller it belongs to,
+	checks this controller's setting and chooses the sample from the
+	according dimension.
+  </p></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="gig_instrument"></a>Instrument</h2></div></div></div><p></p></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="gig_group"></a>Group</h2></div></div></div><p></p></div></div><div class="glossary"><div class="titlepage"><div><div><h1 class="title"><a name="glossary"></a>Glossary</h1></div></div></div><div class="glossdiv"><h3 class="title">A</h3><dl><dt><a name="gloss_adsr"></a><span class="glossterm">ADSR</span></dt><dd class="glossdef"><p>
+	  Attack, Decay, Sustain, Release, abbreviation for the so called
+	  ADSR-envelope that forms a shape which controls voltage controlled
+	  circuits like amplifiers or filters.
+	 </p><p>See Also <a class="glossseealso" href="#gloss_attack">Attack</a>, <a class="glossseealso" href="#gloss_decay">Decay</a>, <a class="glossseealso" href="#gloss_envelope">Envelope</a>, <a class="glossseealso" href="#gloss_sustain">Sustain</a>, <a class="glossseealso" href="#gloss_release">Release</a>.</p></dd><dt><a name="gloss_attack"></a><span class="glossterm">Attack</span></dt><dd class="glossdef"><p>time value, time span defined for an
+	 envelope to rise after starting the envelope cycle</p><p>See Also <a class="glossseealso" href="#gloss_adsr">ADSR</a>.</p></dd></dl></div><div class="glossdiv"><h3 class="title">D</h3><dl><dt><a name="gloss_decay"></a><span class="glossterm">Decay</span></dt><dd class="glossdef"><p>time value, time span defined for an
+	 envelope to fall after rising to a hold state</p><p>See Also <a class="glossseealso" href="#gloss_adsr">ADSR</a>.</p></dd></dl></div><div class="glossdiv"><h3 class="title">E</h3><dl><dt><a name="gloss_envelope"></a><span class="glossterm">Envelope</span></dt><dd class="glossdef"><p>
+	  Definition of time and level values to shape a
+	  signal. Most common structure is a so called
+	  ADSR-follower. Such an envelope has a rising
+	  Attack-time, a first falling Decay time leading
+	  to the Sustain level. At the end of the cycle
+	  there's a Release time, damping the signal's
+	  strength. For example a piano has a rather
+	  short Attack time, no Sustain level and
+	  a Release time. Strings have varying Attack
+	  times as well as varying Decay, they have a
+	  Sustain level and very flexible Release time.
+	 </p><p>See Also <a class="glossseealso" href="#gloss_adsr">ADSR</a>.</p></dd></dl></div><div class="glossdiv"><h3 class="title">L</h3><dl><dt><a name="gloss_lfo"></a><span class="glossterm">LFO</span></dt><dd class="glossdef"><p>
+	 Low Frequency Oscillator, an oscillator with very
+	 low frequency, typically below 10Hz. Often used
+	 with VCAs or VCFs to shape a signal.
+	 </p><p>See Also <a class="glossseealso" href="#gloss_vca">VCA</a>, <a class="glossseealso" href="#gloss_vcf">VCF</a>.</p></dd></dl></div><div class="glossdiv"><h3 class="title">R</h3><dl><dt><a name="gloss_release"></a><span class="glossterm">Release</span></dt><dd class="glossdef"><p>time value, time span defined for an
+	 envelope to fall at the end of an envelope cycle</p><p>See Also <a class="glossseealso" href="#gloss_adsr">ADSR</a>.</p></dd></dl></div><div class="glossdiv"><h3 class="title">S</h3><dl><dt><a name="gloss_sustain"></a><span class="glossterm">Sustain</span></dt><dd class="glossdef"><p>strength or level value, level of an
+	 envelope while being in hold state of an envelope cycle</p><p>See Also <a class="glossseealso" href="#gloss_adsr">ADSR</a>.</p></dd></dl></div><div class="glossdiv"><h3 class="title">V</h3><dl><dt><a name="gloss_vca"></a><span class="glossterm">VCA</span></dt><dd class="glossdef"><p>
+	  Voltage Controlled Amplifier, an amplifier whose amplification
+	  depends on a controlling voltage. Instead of making it louder
+	  by turning a knob you raise the controlling voltage. Often
+	  used in conjunction with Envelopes or LFOs to shape a signal.
+	 </p><p>See Also <a class="glossseealso" href="#gloss_envelope">Envelope</a>, <a class="glossseealso" href="#gloss_lfo">LFO</a>, <a class="glossseealso" href="#gloss_vcf">VCF</a>.</p></dd><dt><a name="gloss_vcf"></a><span class="glossterm">VCF</span></dt><dd class="glossdef"><p>
+	  Voltage Controlled Filter, a filter whose parameters,
+	  for example cutoff frequency, depend on a controlling voltage.
+	  Instead of changing the frequency by turning a knob you raise the
+	  controlling voltage. Often used in conjunction with Envelopes or
+	  LFOs to shape a signal.
+	 </p><p>See Also <a class="glossseealso" href="#gloss_envelope">Envelope</a>, <a class="glossseealso" href="#gloss_lfo">LFO</a>, <a class="glossseealso" href="#gloss_vca">VCA</a>.</p></dd></dl></div></div><div class="appendix"><div class="titlepage"><div><div><h1 class="title"><a name="gen_midi_drum"></a>Appendix A. General Midi Drum Map</h1></div></div></div><p>
+	Drums are not played with notes but with events. You trigger
+	the drum or you don't trigger it. But there's no such range thing
+	like a piano has or strings or synths. Back in the 1980s some
+	people thought, it would be good to have something like a
+	drum map. Switching from a piano to strings only needs some
+	adjustment in octaves but notes sound the same. Switching from
+	one drum set to another could cause a mess or silence. Without
+	a standardized assignment of note (events) and drums it's quite
+	hard to move from a jazzy drum set with brushes to a more
+	straightforward rock drum set.
+ </p><div class="table"><a name="gen_midi_table"></a><p class="title"><b>Table A.1. General midi drum map</b></p><div class="table-contents"><table class="table" summary="General midi drum map" border="1"><colgroup><col><col><col><col></colgroup><thead><tr><th>Note</th><th>Drum Sound</th><th>Note</th><th>Drum Sound</th></tr></thead><tbody><tr><td>35</td><td>Acoustic Bass Drum</td><td>59</td><td>Ride Cymbal 2</td></tr><tr><td>  36</td><td> 	Bass Drum 1</td><td> 	60</td><td> 	Hi Bongo</td></tr><tr><td>  37</td><td> 	Side Stick</td><td> 	61</td><td> 	Low Bongo</td></tr><tr><td>  38</td><td> 	Acoustic Snare</td><td> 	62</td><td> 	Mute Hi Conga</td></tr><tr><td>  39</td><td> 	Hand Clap</td><td> 	63</td><td> 	Open Hi Conga</td></tr><tr><td>  40</td><td> 	Electric Snare</td><td>  	64</td><td> 	Low Conga</td></tr><tr><td>  41</td><td> 	Low Floor Tom</td><td> 	65</td><td> 	High Timbale</td></tr><tr><td>  42</td><td> 	Closed Hi-Hat</td><td> 	66</td><td> 	Low Timbale</td></tr><tr><td>  43</td><td> 	High Floor Tom</td><td>  	67</td><td> 	High Agogo</td></tr><tr><td>  44</td><td> 	Pedal Hi-Hat</td><td>  	68</td><td> 	Low Agogo</td></tr><tr><td>  45</td><td> 	Low Tom</td><td> 	69</td><td> 	Cabasa</td></tr><tr><td>  46</td><td> 	Open Hi-Hat</td><td> 	70</td><td> 	Maracas</td></tr><tr><td>  47</td><td> 	Low-Mid Tom</td><td> 	71</td><td> 	Short Whistle</td></tr><tr><td>  48</td><td> 	Hi-Mid Tom</td><td> 	72</td><td> 	Long Whistle</td></tr><tr><td>  49</td><td> 	Crash Cymbal 1</td><td> 	73</td><td> 	Short Guiro</td></tr><tr><td>  50</td><td> 	High Tom</td><td> 	74</td><td> 	Long Guiro</td></tr><tr><td>  51</td><td> 	Ride Cymbal 1</td><td> 	75</td><td> 	Claves</td></tr><tr><td>  52</td><td> 	Chinese Cymbal</td><td> 	76</td><td> 	Hi Wood Block</td></tr><tr><td>  53</td><td> 	Ride Bell</td><td> 	77</td><td> 	Low Wood Block</td></tr><tr><td>  54</td><td> 	Tambourine</td><td> 	78</td><td> 	Mute Cuica</td></tr><tr><td>  55</td><td> 	Splash Cymbal</td><td> 	79</td><td> 	Open Cuica</td></tr><tr><td>  56</td><td> 	Cowbell</td><td> 	80</td><td> 	Mute Triangle</td></tr><tr><td>  57</td><td> 	Crash Cymbal 2</td><td> 	81</td><td> 	Open Triangle</td></tr><tr><td>  58</td><td> 	Vibraslap</td><td class="auto-generated"> </td><td class="auto-generated"> </td></tr></tbody></table></div></div><br class="table-break"></div><div class="appendix"><div class="titlepage"><div><div><h1 class="title"><a name="mc505_midi_drum"></a>Appendix B. MC505 Midi Drum Map</h1></div></div></div><p>
+	The <a class="xref" href="#gen_midi_drum" title="Appendix A. General Midi Drum Map">Appendix A, <i>General Midi Drum Map</i></a> is a quite generic
+	approach to arrange drum samples. The most impressive
+	realization was the MC 505 drum map. It doesn't lack
+	all those fine exotic samples and is a bit more
+	intuitive. Have a look at the octave shifting bass drum
+	switching...
+ </p><div class="table"><a name="mc505_table1"></a><p class="title"><b>Table B.1. MC505 midi drum map</b></p><div class="table-contents"><table class="table" summary="MC505 midi drum map" border="1"><colgroup><col><col><col><col></colgroup><thead><tr><th>Note</th><th>Drum Sound</th><th>Note</th><th>Drum Sound</th></tr></thead><tbody><tr><td>35</td><td>Bass Drum 1</td><td>59</td><td>Tom</td></tr><tr><td>36</td><td>Bass Drum 2</td><td>60</td><td>Tom</td></tr><tr><td>37</td><td>Side Stick</td><td>61</td><td>Crash/ Cym</td></tr><tr><td>38</td><td>Snare 1</td><td>62</td><td>Tom</td></tr><tr><td>39</td><td>Hand Clap</td><td>63</td><td>Ride/ Cym</td></tr><tr><td>40</td><td>Snare 2</td><td>64</td><td>Crash/ Cym</td></tr><tr><td>41</td><td>Low Floor Tom</td><td>65</td><td>Ride</td></tr><tr><td>42</td><td>Closed Hi-Hat</td><td>66</td><td>Tambourine</td></tr><tr><td>43</td><td>High Floor Tom</td><td>67</td><td>Crash</td></tr><tr><td>44</td><td>Pedal Hi-Hat</td><td>68</td><td>Cowbell</td></tr><tr><td>45</td><td>Low Tom</td><td>69</td><td>Cymbal/ Crash/ Ride</td></tr><tr><td>46</td><td>Open Hi-Hat</td><td>70</td><td>Guiro/ Cowbell/ Hi Bongo</td></tr><tr><td>47</td><td>Bass Drum 3</td><td>71</td><td>Ride</td></tr><tr><td>48</td><td>Bass Drum 4</td><td>72</td><td>High Bongo</td></tr><tr><td>49</td><td>Sidestick (Rim)</td><td>73</td><td>Low Bongo/ Conga</td></tr><tr><td>50</td><td>Snare 3</td><td>74</td><td>(High) Conga</td></tr><tr><td>51</td><td>Clap</td><td>75</td><td>(High) Conga</td></tr><tr><td>52</td><td>Snare 4</td><td>76</td><td>(Low) Conga</td></tr><tr><td>53</td><td>Tom</td><td>77</td><td>High Timbale</td></tr><tr><td>54</td><td>Closed High Hat</td><td>78</td><td>Low Timbale</td></tr><tr><td>55</td><td>Tom</td><td>79</td><td>Agogo</td></tr><tr><td>56</td><td>Open High Hat</td><td>80</td><td>Agogo/ Claves</td></tr><tr><td>57</td><td>Tom</td><td>81</td><td>Cabase/ Guiro</td></tr><tr><td>58</td><td>Open High Hat</td><td class="auto-generated"> </td><td class="auto-generated"> </td></tr></tbody></table></div></div><br class="table-break"><div class="table"><a name="mc505_table2"></a><p class="title"><b>Table B.2. MC505 midi drum map (continued)</b></p><div class="table-contents"><table class="table" summary="MC505 midi drum map (continued)" border="1"><colgroup><col><col><col><col></colgroup><thead><tr><th>Note</th><th>Drum Sound</th><th>Note</th><th>Drum Sound</th></tr></thead><tbody><tr><td>82</td><td>Maracas</td><td>91</td><td>Synthetic Sample</td></tr><tr><td>83</td><td>Hit/ EFX Sample</td><td>92</td><td>EFX Sample</td></tr><tr><td>84</td><td>Blip/ EFX Sample</td><td>93</td><td>Noise Sample</td></tr><tr><td>85</td><td>Hit/ Blip</td><td>94</td><td>Clap</td></tr><tr><td>86</td><td>Hit/ Noise Sample</td><td>95</td><td>Bass Drum</td></tr><tr><td>87</td><td>EFX Sample</td><td>96</td><td>Bass Drum</td></tr><tr><td>88</td><td>Hit</td><td>97</td><td>Snare</td></tr><tr><td>89</td><td>EFX Sample</td><td>98</td><td>Snare/ Rim</td></tr><tr><td>90</td><td>EFX Sample</td><td class="auto-generated"> </td><td class="auto-generated"> </td></tr></tbody></table></div></div><br class="table-break"></div><div class="index"><div class="titlepage"><div><div><h1 class="title"><a name="index"></a>Index</h1></div></div></div><div xmlns:xlink="http://www.w3.org/1999/xlink" class="index"><div class="indexdiv"><h3>G</h3><dl><dt id="ientry-idm301">GIG, <a class="indexterm" href="#gig_overview">An Overview</a></dt></dl></div><div class="indexdiv"><h3>S</h3><dl><dt id="ientry-idm257">Sample Bank, <a class="indexterm" href="#tech_bank">A simple Sample Bank</a></dt></dl></div></div></div></div></body></html>
