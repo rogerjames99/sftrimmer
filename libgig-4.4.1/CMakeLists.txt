@@ -1,9 +1,6 @@
 cmake_minimum_required(VERSION 3.1)
 project(libgig)
-
-if(NOT MSVC)
-	message(FATAL_ERROR "Please use configure and make, this cmake file is currently only to generate msvc solution files")
-endif()
+find_package(PkgConfig REQUIRED)
 
 #To force the compiler to use C++ 11
 set(CMAKE_CXX_STANDARD 11)
@@ -14,7 +11,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED TRUE)
 set(LIBGIG_BUILD_TOOLS ON CACHE BOOL "Build the extra tools")
 set(LIBGIG_ENABLE_TESTING ON CACHE BOOL "Build the test cases")
 set(LIBGIG_BUILD_SHARED ${BUILD_SHARED_LIBS} CACHE BOOL "build dynamic libraries")
-
+set(CMAKE_VERBOSE_MAKEFILE TRUE)
 set(BUILD_SHARED_LIBS ${LIBGIG_BUILD_SHARED})
 
 if(LIBGIG_ENABLE_TESTING)
@@ -47,8 +44,10 @@ if(WIN32)
 endif(WIN32)
 
 if(LIBGIG_BUILD_TOOLS)
-	find_package(LibSndFile)
+	pkg_check_modules(sndfile REQUIRED IMPORTED_TARGET sndfile)
 endif()
+
+pkg_check_modules(uuid REQUIRED IMPORTED_TARGET uuid)
 
 #get version from configure.ac
 #have to make a slight detour since I cannot get the cmake regex subgroup to work with file
@@ -86,6 +85,10 @@ if(WIN32)
 	target_sources(libgig PRIVATE win32/dllmain.cpp)
 endif()
 
+if (uuid_FOUND)
+	target_compile_definitions(libgig PRIVATE HAVE_UUID_GENERATE=1 HAVE_UUID_UUID_H=1)
+	target_include_directories(libgig PRIVATE ${uuid_INCLUDE_DIRS})
+endif()
 set_target_properties(libgig PROPERTIES PUBLIC_HEADER "${LIBGIG_HEADERS}")
 target_compile_definitions(libgig PRIVATE PACKAGE="${PACKAGE_NAME}" VERSION="${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_BUILD}")
 target_include_directories(libgig PUBLIC $<INSTALL_INTERFACE:include>)
