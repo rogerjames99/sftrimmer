@@ -3,3 +3,4 @@ libgig-4.4.1/build/
 *.swp
 build/
 .vscode/
+doc/
