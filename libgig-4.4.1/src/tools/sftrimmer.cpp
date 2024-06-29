@@ -1,6 +1,6 @@
 #include "../SF.h"
 
-// abort compilation here if neither libsndfile nor libaudiofile are available
+// abort compilation here if libsndfile not available
 #if !HAVE_SNDFILE
 #error "libsndfile not available!"
 #error "(HAVE_SNDFILE is false)"
@@ -49,7 +49,9 @@ int main(int argc, char *argv[])
         for (int i = 0; i < sf->GetSampleCount(); i++)
         {
             sf2::Sample *s = sf->GetSample(i);
-            cout << "\t" << s->Name << " (Depth: " << ((s->GetFrameSize() / s->GetChannelCount()) * 8);
+            uint depth = (s->GetFrameSize() / s->GetChannelCount()) * 8;
+            cout << std::dec << "Processing sample " << i << endl;
+            cout << "\t" << s->Name << " (Depth: " << depth;
             cout << ", SampleRate: " << s->SampleRate;
             cout << ", Pitch: " << ((int)s->OriginalPitch);
             cout << ", Pitch Correction: " << ((int)s->PitchCorrection) << endl;
@@ -57,10 +59,58 @@ int main(int argc, char *argv[])
             cout << ", Start Loop: " << s->StartLoop << ", End Loop: " << s->EndLoop << endl;
             cout << "\t\tSample Type: " << GetSampleType(s->SampleType) << ", Sample Link: " << s->SampleLink << ")" << endl;
 
+            // Correct the sample offsets LoadSampleData loads the sample into the start of the buffer.
+            int StartLoop = s->StartLoop - s->Start;
+            int EndLoop = s->EndLoop - s->Start;
+            int End = s->End - s->Start;
+
             // Get the sample data
             sf2::Sample::buffer_t sample_data = s->LoadSampleData();
+            long frame_count = s->GetTotalFrameCount();
+
+
+            // Only handle 16 bit samples for now
+            if (16 != depth)
+            {
+                cout << "Sample is not 16 bit" << endl;
+                continue;
+            }
+
+            uint16_t* samples16bit = (uint16_t*)sample_data.pStart;
+
+            // Switching to hex output
+            cout << std::hex;
+            
+            // Print 8 samples around the loop start
+            cout << "Samples surrounding loop start" << endl;
+            for (int i = 0; i < 8 ; i++)
+            {
+                uint16_t* loopptr = &samples16bit[StartLoop - 4 + i];
+                if (StartLoop - 4 + i > frame_count)
+                {
+                    cout << "frame_count exceeded" << endl;
+                    break;
+                }
+                cout << samples16bit[StartLoop - 4 + i] << " " << endl;
+                //uint16_t sample = *loopptr;
+            }
+            cout << endl;
+
+            // Print 8 samples around the loop end
+            cout << "Samples surrounding loop end" << endl;
+            for (int i = 0; i < 8; i++)
+            {
+                if (EndLoop - 4 + i > frame_count)
+                {
+                    cout << "frame_count exceeded" << endl;
+                    break;
+                }
+                cout << samples16bit[EndLoop - 4 + i] << " " << endl;
+            }
+            cout << endl;
 
             s->ReleaseSampleData();
+
         }
 
         delete sf;
