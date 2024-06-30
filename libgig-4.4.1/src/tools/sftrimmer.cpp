@@ -80,6 +80,25 @@ int main(int argc, char *argv[])
 
             // Switching to hex output
             cout << std::hex;
+
+            /*
+                Ideal loop layout
+                =================
+
+                1. 8 samples before loop start sample, the last 4 samples of this section
+                should be identical to the 4 samples before the loop end sample.
+
+                2. loop start sample
+
+                3. loop samples
+
+                5. loop end sample
+
+                6. 8 samples after loop end sample, the first 4 samples of this section
+                should be identical to the 4 samples after the loop start sample.
+
+                7. 24 null samples to accomodate differential algorithms.
+            */
             
             // Print 8 samples around the loop start
             cout << "Samples surrounding loop start" << endl;
@@ -112,6 +131,9 @@ int main(int argc, char *argv[])
             s->ReleaseSampleData();
 
         }
+
+        // Write out the modified file
+        sf->GetRiffFile()->Save("test.sf2");
 
         delete sf;
         delete riff;
