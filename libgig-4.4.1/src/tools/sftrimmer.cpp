@@ -1,3 +1,4 @@
+#include <cstring>
 #include "../SF.h"
 
 // abort compilation here if libsndfile not available
@@ -44,6 +45,10 @@ int main(int argc, char *argv[])
 
     try
     {
+        std::vector<uint16_t*> modified_samples;
+        std::vector<size_t> size_of_individual_modified_samples;
+        size_t total_size_of_modified_data = 0;
+
         RIFF::File *riff = new RIFF::File(argv[1]);
         sf2::File *sf = new sf2::File(riff);
         for (int i = 0; i < sf->GetSampleCount(); i++)
@@ -96,41 +101,47 @@ int main(int argc, char *argv[])
 
                 6. 8 samples after loop end sample, the first 4 samples of this section
                 should be identical to the 4 samples after the loop start sample.
-
-                7. 24 null samples to accomodate differential algorithms.
             */
+
+            // Allocate data to hold the modified sample
+            size_t modified_data_length = EndLoop - StartLoop + 16;
+            size_of_individual_modified_samples.push_back(modified_data_length);
+            total_size_of_modified_data += modified_data_length;
+            uint16_t* modified_data = new uint16_t[modified_data_length];
+            if (NULL == modified_data)
+            {
+                cout << "Unable to allocate memory for modified sample" << endl;
+                exit(-1);
+            }
+
+            std::memcpy(modified_data, samples16bit + StartLoop -8 , modified_data_length * 2);
+
+            modified_samples.push_back(modified_data);
             
-            // Print 8 samples around the loop start
-            cout << "Samples surrounding loop start" << endl;
-            for (int i = 0; i < 8 ; i++)
-            {
-                uint16_t* loopptr = &samples16bit[StartLoop - 4 + i];
-                if (StartLoop - 4 + i > frame_count)
-                {
-                    cout << "frame_count exceeded" << endl;
-                    break;
-                }
-                cout << samples16bit[StartLoop - 4 + i] << " " << endl;
-                //uint16_t sample = *loopptr;
-            }
-            cout << endl;
-
-            // Print 8 samples around the loop end
-            cout << "Samples surrounding loop end" << endl;
-            for (int i = 0; i < 8; i++)
-            {
-                if (EndLoop - 4 + i > frame_count)
-                {
-                    cout << "frame_count exceeded" << endl;
-                    break;
-                }
-                cout << samples16bit[EndLoop - 4 + i] << " " << endl;
-            }
-            cout << endl;
-
             s->ReleaseSampleData();
-
         }
+
+        cout << "Total size of modified sample data " << total_size_of_modified_data << endl;
+
+        // Coalesce the modified samples
+        size_t coalesced_samples_index = 0;
+        uint16_t* coalesced_samples = new uint16_t[total_size_of_modified_data];
+        if (NULL == coalesced_samples)
+        {
+            cout << "Unable to allocate memory for coalesced samples" << endl;
+            exit(-1);
+        }
+
+        for (uint i = 0; i < modified_samples.size(); i++)
+        {
+            size_t size = size_of_individual_modified_samples[i];
+            memcpy(coalesced_samples + coalesced_samples_index, modified_samples[i], size * 2);
+            coalesced_samples_index += size;
+        }
+
+        // Replace the SMPL-CK chunk with one pointing at the new data
+
+        // Modify the sample headers
 
         // Write out the modified file
         sf->GetRiffFile()->Save("test.sf2");
