@@ -1,12 +1,5 @@
 #include <cstring>
-#include "../SF.h"
-
-// abort compilation here if libsndfile not available
-#if !HAVE_SNDFILE
-#error "libsndfile not available!"
-#error "(HAVE_SNDFILE is false)"
-#endif
-
+#include <SF.h>
 #include <sndfile.h>
 
 using namespace std;
