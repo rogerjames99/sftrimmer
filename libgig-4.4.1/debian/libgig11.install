@@ -1,2 +1,0 @@
-/etc/ld.so.conf.d/libgig*.conf
-debian/tmp/usr/lib/libgig/*.so.* usr/lib/libgig

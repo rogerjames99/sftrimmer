@@ -1,5 +1,0 @@
-LIBRARY			LINUXSAMPLER
-DESCRIPTION		'LinuxSampler VST'
-EXPORTS
-main=VSTPluginMain @1
-VSTPluginMain @2
