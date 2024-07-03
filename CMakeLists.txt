@@ -7,8 +7,7 @@ set(CMAKE_VERBOSE_MAKEFILE TRUE)
 
 add_executable(sftrimmer sftrimmer.cpp)
 
-pkg_check_modules(libgig REQUIRED gig)
-pkg_check_modules(sndfile REQUIRED sndfile)
-target_compile_definitions(sftrimmer PRIVATE ${libgig_LDFLAGS} ${sndfile_LDFLAGS})
-target_link_libraries(sftrimmer PRIVATE libgig sndfile)
-target_include_directories(sftrimmer PRIVATE ${libgig_INCLUDEDIR} ${sndfile_INCLUDEDIR})
+pkg_check_modules(giglib REQUIRED IMPORTED_TARGET gig)
+pkg_check_modules(sndfile REQUIRED IMPORTED_TARGET sndfile)
+target_include_directories(sftrimmer PRIVATE ${giglib_INCLUDEDIR} ${sndfile_INCLUDEDIR})
+target_link_libraries(sftrimmer PRIVATE PkgConfig::giglib PkgConfig::sndfile)
