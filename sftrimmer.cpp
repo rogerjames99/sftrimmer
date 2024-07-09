@@ -130,8 +130,8 @@ int main(int argc, char *argv[])
 
                 7. 46 zero sample points.
 
-                This implementation overwrites the 9 bytes at loop end sample point - 4 and the 9 bytes from
-                loop start sample point - 4 with the mean of the two values.
+                This implementation looks at the 9 samples around the loop start and loop end points, It overwrites
+                these points with the mean of the the two corresponding samples.
             */
 
             // Prepare to update the sample header
