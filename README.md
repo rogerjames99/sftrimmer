@@ -5,6 +5,7 @@ Soundfont trimmer (sftrimmer) is a small program that is designed to shrink the 
 
 ## The ideal sample loop layout
 
+<<<<<<< HEAD
 1. 8 sample points before loop start sample point, the last 4 sample points of this section
 identical to the 4 sample points before the loop end sample.
 2. loop start sample point, this should be identical to the loop end sample point.
