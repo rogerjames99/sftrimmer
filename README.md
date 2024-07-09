@@ -1,7 +1,7 @@
 # Soundfont Trimmer
 ## Introduction
 
-Soundfont trimmer (sftrimmer) is a small program that is designed to shrink the size of soundfont files so that they occupy less memory space when loaded. The is especially important for embedded devices with restricted ram storage. It does this by removing redundant sample points that are not used to play the the sample loop.
+Soundfont trimmer (sftrimmer) is a small program that is designed to shrink the size of soundfont files so that they occupy less memory space when loaded. The is especially important for embedded devices with restricted ram storage. It does this by removing redundant sample points that are not used to play the sample loop.
 
 ## The ideal sample loop layout
 
@@ -16,5 +16,5 @@ This implementation looks at the 9 samples around the loop start and loop end po
 
 ## Usage
 
-The program takes two parameters the first being the the full pathname to the soundfont file. The second being the full pathname of the new file to be created.
+The program takes two parameters the first being the full pathname to the soundfont file. The second being the full pathname of the new file to be created.
 
