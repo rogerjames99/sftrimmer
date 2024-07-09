@@ -6,6 +6,9 @@ using namespace std;
 
 const int LOOP_PADDING_POINTS = 16;
 const int SAMPLE_ZERO_PADDING_POINTS = 46;
+const int LENGTH_OF_SAMPLE_NAME = 20;
+const int SAMPLE_HEADER_SIZE = 46;
+
 
 string GetSampleType(uint16_t type)
 {
@@ -42,7 +45,7 @@ int main(int argc, char *argv[])
 
     try
     {
-        typedef struct new_offsets
+        typedef struct __attribute__ ((__packed__)) new_offsets
         {
             uint32_t Start;
             uint32_t End;
@@ -89,10 +92,10 @@ int main(int argc, char *argv[])
             }
 
             // Correct the sample offsets LoadSampleData loads the sample into the start of the buffer.
-            size_t StartLoop = s->StartLoop - s->Start;
-            size_t EndLoop = s->EndLoop - s->Start;
-            size_t End = s->End - s->Start;
-            size_t LoopSize = EndLoop - StartLoop;
+            size_t SampleStartLoop = s->StartLoop - s->Start;
+            size_t SampleEndLoop = s->EndLoop - s->Start;
+            size_t SampleEnd = s->End - s->Start;
+            size_t LoopSize = SampleEndLoop - SampleStartLoop;
 
 
             // Get the sample data
@@ -108,9 +111,6 @@ int main(int argc, char *argv[])
             }
 
             uint16_t* samples16bit = (uint16_t*)sample_data.pStart;
-
-            // Switching to hex output
-            cout << std::hex;
 
             /*
                 Ideal loop layout
@@ -140,10 +140,17 @@ int main(int argc, char *argv[])
             newoffsets->Start = total_size_of_modified_data;
 
             // Allocate data to hold the modified sample
-            size_t modified_data_length = EndLoop - StartLoop + LOOP_PADDING_POINTS + SAMPLE_ZERO_PADDING_POINTS;
+            size_t modified_data_length = SampleEndLoop - SampleStartLoop + LOOP_PADDING_POINTS + SAMPLE_ZERO_PADDING_POINTS;
             newoffsets->End = newoffsets->Start + modified_data_length - SAMPLE_ZERO_PADDING_POINTS;
-            newoffsets->Start = newoffsets->Start + 8;
+            newoffsets->StartLoop = newoffsets->Start + 8;
             newoffsets->EndLoop = newoffsets->End - 8;
+
+            cout << "NewOffsets" << endl
+                << "Start " << newoffsets->Start
+                << " End " << newoffsets->End
+                << " StartLoop " << newoffsets->StartLoop
+                << " EndLoop " << newoffsets->EndLoop << endl;
+
             size_of_individual_modified_samples.push_back(modified_data_length);
             total_size_of_modified_data += modified_data_length;
             uint16_t* modified_data = new uint16_t[modified_data_length];
@@ -154,16 +161,16 @@ int main(int argc, char *argv[])
             }
             // Copy the sample data
             std::memset(modified_data, 0, modified_data_length * 2);
-            std::memcpy(modified_data, samples16bit + StartLoop - 8 , (modified_data_length - SAMPLE_ZERO_PADDING_POINTS) * 2);
+            std::memcpy(modified_data, samples16bit + SampleStartLoop - 8 , (modified_data_length - SAMPLE_ZERO_PADDING_POINTS) * 2);
 
             // Recalculate the sample point 
-            size_t newStart = 0;
-            size_t newStartLoop = 8;
-            size_t newEndLoop = newStartLoop + LoopSize;
+            size_t newSampleStart = 0;
+            size_t newSampleStartLoop = 8;
+            size_t newSampleEndLoop = newSampleStartLoop + LoopSize;
             size_t newEnd = modified_data_length;
 
             // Fix the loop points
-            for (int i = newStartLoop - 4; i < 9; i++)
+            for (int i = newSampleStartLoop - 4; i < 9; i++)
                 modified_data[i] = modified_data[i + LoopSize] = (modified_data[i] + modified_data[i + LoopSize]) / 2;
 	
             modified_samples.push_back(modified_data);
@@ -189,17 +196,6 @@ int main(int argc, char *argv[])
             coalesced_samples_index += size;
         }
 
-        // Modify the sample headers
-        for (uint i = 0; i < modified_samples.size(); i++)
-        {
-            sf2::Sample *s = sf->GetSample(i);
-            new_offsets_t n = *newoffsets_vector[i];
-            s->Start = n.Start;
-            s->End = n.End;
-            s->StartLoop = n.StartLoop;
-            s->EndLoop = n.EndLoop;
-        }
-        
         // Replace the SMPL-CK chunk with one pointing at the new data
         RIFF::Chunk* pChunk = sf->GetSample(0)->pCkSmpl;
         RIFF::List* pList = pChunk->GetParent();
@@ -209,9 +205,48 @@ int main(int argc, char *argv[])
 
         pChunk->Resize(total_size_of_modified_data * 2);
         pChunk->GetFile()->Save(argv[2]);
+        // Save the sample data into soundfont object
         pChunk->WriteInt16((int16_t*)coalesced_samples, total_size_of_modified_data);
 
+            // Modify the sample headers
+        RIFF::File* pRiff = sf->GetRiffFile();
+        RIFF::List* pPDTA = pRiff->GetSubList(LIST_TYPE_PDTA);
+        RIFF::Chunk* pSHDR = pPDTA->GetSubChunk(CHUNK_ID_SHDR);
+        uint8_t* pData = (uint8_t*)pSHDR->LoadChunkData();
+        pData += LENGTH_OF_SAMPLE_NAME;
 
+        for (uint i = 0; i < modified_samples.size(); i++)
+        {
+            // Get the new offset data
+            new_offsets_t temp_offsets;
+            std::memcpy(&temp_offsets, pData, sizeof(new_offsets_t));
+            new_offsets_t* n = newoffsets_vector[i];
+            cout << endl << "New offsets from vector" << endl
+                << "Start " <<  n->Start << "(" <<  std::hex << n->Start << ")" << std::dec << endl
+                << "End " <<  n->End << "(" <<  std::hex << n->End << ")" << std::dec << endl
+                <<  "StartLoop " << n->StartLoop << "(" <<  std::hex << n->StartLoop << ")" << std::dec << endl
+                <<  "EndLoop " << n->EndLoop << "(" <<  std::hex << n->EndLoop << ")" << std::dec << endl;
+
+            cout << endl << "Old offsets" << endl
+                << "Start " <<  temp_offsets.Start << "(" <<  std::hex << temp_offsets.Start << ")" << std::dec << endl
+                << "End " <<  temp_offsets.End << "(" <<  std::hex << temp_offsets.End << ")" << std::dec << endl
+                <<  "StartLoop " << temp_offsets.StartLoop << "(" <<  std::hex << temp_offsets.StartLoop << ")" << std::dec << endl
+                <<  "EndLoop " << temp_offsets.EndLoop << "(" <<  std::hex << temp_offsets.EndLoop << ")" << std::dec << endl;
+                
+            // Patch the chunk data
+            std::memcpy(pData, n, sizeof(new_offsets_t));
+
+            std::memcpy(&temp_offsets, pData, sizeof(new_offsets_t));
+            cout << endl << "New offsets" << endl
+                << "Start " <<  temp_offsets.Start << "(" <<  std::hex << temp_offsets.Start << ")" << std::dec << endl
+                << "End " <<  temp_offsets.End << "(" <<  std::hex << temp_offsets.End << ")" << std::dec << endl
+                <<  "StartLoop " << temp_offsets.StartLoop << "(" <<  std::hex << temp_offsets.StartLoop << ")" << std::dec << endl
+                <<  "EndLoop " << temp_offsets.EndLoop << "(" <<  std::hex << temp_offsets.EndLoop << ")" << std::dec << endl;
+
+            pData += SAMPLE_HEADER_SIZE;
+        }
+        pSHDR->GetFile()->Save(argv[2]);
+        pSHDR->ReleaseChunkData();
 
         delete sf;
         delete riff;
