@@ -11,3 +11,5 @@ pkg_check_modules(giglib REQUIRED IMPORTED_TARGET gig)
 pkg_check_modules(sndfile REQUIRED IMPORTED_TARGET sndfile)
 target_include_directories(sftrimmer PRIVATE ${giglib_INCLUDEDIR} ${sndfile_INCLUDEDIR})
 target_link_libraries(sftrimmer PRIVATE PkgConfig::giglib PkgConfig::sndfile)
+
+install(TARGETS sftrimmer DESTINATION "bin")
